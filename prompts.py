@@ -1,10 +1,10 @@
 from llama_index.core import PromptTemplate
 
 instruction_str = """\
-    1. Convert the query to executable Pyhton code usinng Pandas
-    2. The final line of the code should be a Python expression that can be called with the 'eval()' funnctionn
+    1. Convert the query to executable Python code using Pandas
+    2. The final line of the code should be a Python expression that can be called with the 'eval()' function
     3. The code should represent a solution to the query
-    4. Print onnly th expression
+    4. Print only th expression
     5. Do not quote the expression
 """
 

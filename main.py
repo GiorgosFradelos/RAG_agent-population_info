@@ -14,11 +14,14 @@ from llama_index.llms.groq import Groq  # <-- Import LlamaIndex's Groq wrapper
 
 # from groq import Groq
 
-from note_engine import notes_engine
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
+from notes_engine import notes_engine
 
 # from llama_index.core.agent.workflow import ReActAgent
 from llama_index.core.agent.workflow import FunctionAgent
+from pdf import canada_engine
+from pdf import greece_engine
+from pdf import allwyn_engine
 
 
 
@@ -60,9 +63,22 @@ async def agent():
                             name="population_data",
                             description="That gives information at the world population and demographics"
                         ),
-                        )
+                        ),
+        QueryEngineTool(
+            query_engine=canada_engine,
+            metadata=ToolMetadata(
+                name="canada_data",
+                description="this gives detailed information about the country of Canada",
+            ),
+        ),
+        QueryEngineTool(
+            query_engine=greece_engine,
+            metadata=ToolMetadata(
+                name="greece_data",
+                description="this gives detailed information about the country of Greece",
+            ),
+        )
     ]
-
 
 
     llm = Groq(
@@ -73,14 +89,12 @@ async def agent():
     agent = FunctionAgent(
         tools=tools,
         llm=llm,
-        verbose=False,
+        verbose=True,
         streaming=False,
         context=context
     )
 
 
-
-    # context = Context(agent)
 
     while (prompt := input("Enter a prompt (q to quit): ")) != "q":
         result = await agent.run(prompt,
